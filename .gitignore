@@ -1,0 +1,29 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.trae/
+.vscode/
+.idea/
+
+# Large data and models
+sedac_data/
+*.pth
+*.pt
+*.safetensors
+*.bin
+*.h5
+*.gguf
+
+# Logs and reports
+*.log
+sedac_reports/
+prom_multiproc_dir/
+
+# System
+.DS_Store
+Thumbs.db

@@ -1,0 +1,89 @@
+{
+  "base_model": "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4",
+  "conda_env": "sedac_dev",
+  "online": {
+    "host": "0.0.0.0",
+    "port_base": 8400,
+    "max_model_len": 2048,
+    "gpu_memory_utilization": 0.75
+  },
+  "bench": {
+    "max_tokens": 256,
+    "warmup": 2,
+    "repeat": 5,
+    "concurrency": 1,
+    "eval_ppl": true
+  },
+  "offline": {},
+  "cpp": {
+    "enabled": false
+  },
+  "thresholds": {
+    "min_ar": 0.4,
+    "min_trr": 0.4,
+    "max_ppl_ratio": 1.01
+  },
+  "experiments": [
+    {
+      "name": "vanilla_baseline",
+      "mode": "online",
+      "speculative_config": null,
+      "sedac_enabled": false
+    },
+    {
+      "name": "sedac_static_safe",
+      "mode": "online",
+      "speculative_config": null,
+      "sedac_enabled": true,
+      "sedac_adaptive": false,
+      "sedac_latch": false,
+      "sedac_threshold": 0.45,
+      "sedac_log_every": 0,
+      "sedac_layer": 24
+    },
+    {
+      "name": "sedac_adaptive_safe",
+      "mode": "online",
+      "speculative_config": null,
+      "sedac_enabled": true,
+      "sedac_adaptive": true,
+      "sedac_adaptive_alpha": 0.1,
+      "sedac_adaptive_sensitivity": 0.5,
+      "sedac_latch": false,
+      "sedac_calibration_steps": 4,
+      "sedac_calibration_quantile": 0.4,
+      "sedac_log_every": 0,
+      "sedac_layer": 24
+    },
+    {
+      "name": "ngram_only",
+      "mode": "online",
+      "speculative_config": {
+        "method": "ngram",
+        "num_speculative_tokens": 4,
+        "prompt_lookup_min": 6,
+        "prompt_lookup_max": 6
+      },
+      "sedac_enabled": false
+    },
+    {
+      "name": "ngram_sedac_adaptive",
+      "mode": "online",
+      "speculative_config": {
+        "method": "ngram",
+        "num_speculative_tokens": 4,
+        "prompt_lookup_min": 6,
+        "prompt_lookup_max": 6
+      },
+      "sedac_enabled": true,
+      "sedac_adaptive": true,
+      "sedac_adaptive_alpha": 0.1,
+      "sedac_adaptive_sensitivity": 0.5,
+      "sedac_latch": false,
+      "sedac_calibration_steps": 4,
+      "sedac_calibration_quantile": 0.4,
+      "sedac_log_every": 0,
+      "sedac_layer": 24
+    }
+  ]
+}

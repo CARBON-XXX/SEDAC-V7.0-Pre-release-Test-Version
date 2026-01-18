@@ -1,0 +1,81 @@
+{
+  "base_model": "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4",
+  "conda_env": "sedac_dev",
+  "online": {
+    "host": "0.0.0.0",
+    "port_base": 8300,
+    "max_model_len": 1024,
+    "gpu_memory_utilization": 0.6
+  },
+  "bench": {
+    "max_tokens": 128,
+    "warmup": 1,
+    "repeat": 3,
+    "concurrency": 1,
+    "eval_ppl": true
+  },
+  "offline": {
+    "max_tokens": 128,
+    "warmup": 1,
+    "repeat": 3,
+    "batch_size": 1,
+    "gpu_memory_utilization": 0.6,
+    "max_model_len": 1024
+  },
+  "cpp": {
+    "enabled": true,
+    "build_cmd": "cd '/mnt/g/SEDACV5.0 FAST/cpp/bench_client' && bash build.sh",
+    "bin_path": "/mnt/g/SEDACV5.0 FAST/cpp/bench_client/sedac_bench_client"
+  },
+  "thresholds": {
+    "min_ar": 0.4,
+    "min_trr": 0.4,
+    "max_ppl_ratio": 1.01
+  },
+  "experiments": [
+    {
+      "name": "baseline_online",
+      "mode": "online",
+      "speculative_config": null
+    },
+    {
+      "name": "ngram_t4_n5_online",
+      "mode": "online",
+      "speculative_config": {
+        "method": "ngram",
+        "num_speculative_tokens": 4,
+        "prompt_lookup_min": 5,
+        "prompt_lookup_max": 5
+      }
+    },
+    {
+      "name": "suffix_t16_online",
+      "mode": "online",
+      "speculative_config": {
+        "method": "suffix",
+        "num_speculative_tokens": 16
+      }
+    },
+    {
+      "name": "baseline_cpp",
+      "mode": "cpp_client",
+      "speculative_config": null
+    },
+    {
+      "name": "baseline_offline",
+      "mode": "offline",
+      "speculative_config": null
+    },
+    {
+      "name": "ngram_t4_n5_offline",
+      "mode": "offline",
+      "speculative_config": {
+        "method": "ngram",
+        "num_speculative_tokens": 4,
+        "prompt_lookup_min": 5,
+        "prompt_lookup_max": 5
+      }
+    }
+  ]
+}
+
