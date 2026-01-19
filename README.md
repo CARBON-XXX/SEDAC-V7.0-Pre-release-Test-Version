@@ -89,6 +89,7 @@ python3 sedac_test_suite.py --config configs/test_matrix_speed.json --verbose
 | **Vanilla Baseline** | 1.00x | 1.00 | Reference |
 | **SEDAC v5 (Safe MLP-Skip)** | **~1.05x - 1.15x** | **1.00** | **Lossless** |
 | SEDAC (Aggressive Latch) | ~1.43x | >1000 | ❌ Broken (Model Collapse) |
+The model used for testing is qwen2.5-3b.
 
 > **Note**: The speedup on 3B models is limited because they are often memory-bound or latency-bound. The overhead of the Python control plane competes with the small compute savings.
 
