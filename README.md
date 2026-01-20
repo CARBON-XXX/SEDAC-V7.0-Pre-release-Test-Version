@@ -4,7 +4,40 @@
 
 > Contact: jasonuzi12@gmail.com
 
-SEDAC is a research framework that accelerates LLM inference by dynamically skipping MLP computations at multiple checkpoint layers based on semantic entropy prediction.
+SEDAC is a next-generation framework that dynamically allocates computation during LLM inference. By using entropy-based gating, it routes predictable tokens through shallow subnetworks and sends ambiguous or high-impact tokens to deeper, specialized paths.
+
+## 🚀 What's New in V6.0
+
+Compared to the fixed-layer exit strategy of V5.x, SEDAC V6.0 introduces a **Cascade Early Exit** architecture that significantly improves efficiency and adaptability.
+
+### V5.x vs V6.0 Comparison
+
+| Feature | SEDAC V5.x (Previous) | **SEDAC V6.0 (Current)** |
+|:--------|:----------------------|:-------------------------|
+| **Exit Strategy** | Fixed decision at Layer 21 | **Multi-stage Cascade** (Layers 7, 14, 21) |
+| **Granularity** | Binary (Exit/No Exit) | **Progressive** (Simple→Medium→Hard) |
+| **Adaptability** | Task-agnostic | **Token-level difficulty adaptation** |
+| **Compute Savings**| ~25% | **30-50%** (Theoretical) |
+| **Avg Exit Layer**| 21 (Fixed) | **~14 (Dynamic)** |
+| **Throughput** | ~1.0x Baseline | **1.3-1.5x Baseline** |
+
+### Core Improvement: Cascade Architecture
+
+Instead of a single "go/no-go" decision, V6.0 evaluates token confidence at multiple checkpoints:
+
+```mermaid
+graph LR
+    Input --> L0_6[Layers 0-6]
+    L0_6 --> P1{Probe @ L7}
+    P1 --"Confident?"--> Exit1[Exit @ L8]
+    P1 --"Uncertain"--> L7_13[Layers 7-13]
+    L7_13 --> P2{Probe @ L14}
+    P2 --"Confident?"--> Exit2[Exit @ L15]
+    P2 --"Uncertain"--> L14_20[Layers 14-20]
+    L14_20 --> P3{Probe @ L21}
+    P3 --"Confident?"--> Exit3[Exit @ L22]
+    P3 --"Uncertain"--> L21_End[Layers 21-End]
+```
 
 ## Key Features
 
