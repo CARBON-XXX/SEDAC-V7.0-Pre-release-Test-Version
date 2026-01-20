@@ -48,6 +48,14 @@ graph LR
 - **KV-Cache Safe**: Only skips MLP, preserves attention for cache consistency
 - **vLLM Integration**: Surgical patch for Qwen2/Qwen2.5 architectures
 
+## Changes vs SEDAC V5
+
+SEDAC V6.0 introduces significant architectural improvements over V5:
+
+- **Multi-Layer Cascade Architecture**: Unlike V5's single exit point, V6 employs a cascade of probes (e.g., layers 7, 14, 21).
+- **Online Calibration with $\alpha$-Smoothing**: Solves "threshold jitter" by using an Exponential Moving Average (EMA) for threshold updates, ensuring stability even with small batches of simple tokens.
+- **Improved vLLM Integration**: Surgical patching mechanism for robust Qwen2/2.5 support.
+
 ## Architecture
 
 ```
