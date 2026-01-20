@@ -110,6 +110,7 @@ init_code_v6 = """
         
         # Adaptive threshold mode
         self.sedac_adaptive = os.environ.get("SEDAC_ADAPTIVE", "1").lower() in ("1", "true", "yes")
+        self.sedac_alpha = float(os.environ.get("SEDAC_ALPHA", "0.1"))
         self.sedac_calibrated = False
         self.sedac_calibration_steps = int(os.environ.get("SEDAC_CALIBRATION_STEPS", "50"))
         self.sedac_risk_history = {l: [] for l in self.sedac_probe_layers}
@@ -224,30 +225,52 @@ forward_code_v6 = """
                                 pass
                         
                         # Adaptive threshold calibration
-                        if self.sedac_adaptive and not self.sedac_calibrated:
-                            _risk_val = _max_risk.item()
-                            self.sedac_risk_history[_abs_layer].append(_risk_val)
+                        if self.sedac_adaptive:
+                            # 1. Warmup / Initial Calibration
+                            if not self.sedac_calibrated:
+                                _risk_val = _max_risk.item()
+                                self.sedac_risk_history[_abs_layer].append(_risk_val)
+                                
+                                # Check if all layers have collected enough samples
+                                _all_ready = all(
+                                    len(self.sedac_risk_history.get(l, [])) >= self.sedac_calibration_steps
+                                    for l in self.sedac_probe_layers
+                                )
+                                if _all_ready:
+                                    # Calculate initial thresholds
+                                    for _l in self.sedac_probe_layers:
+                                        _hist = sorted(self.sedac_risk_history[_l])
+                                        _target_rate = self.sedac_target_exit_rates[_l]
+                                        _q_idx = int(len(_hist) * _target_rate)
+                                        _q_idx = min(max(0, _q_idx), len(_hist) - 1)
+                                        _new_thr = _hist[_q_idx]
+                                        self.sedac_thresholds[_l] = _new_thr
+                                        self.sedac_threshold_tensors[_l].fill_(_new_thr)
+                                    self.sedac_calibrated = True
+                                    self._sedac_logger.warning("SEDAC calibration done: thresholds=%s", self.sedac_thresholds)
+                                _can_exit = False
                             
-                            # Check if all layers have collected enough samples
-                            _all_ready = all(
-                                len(self.sedac_risk_history.get(l, [])) >= self.sedac_calibration_steps
-                                for l in self.sedac_probe_layers
-                            )
-                            if _all_ready:
-                                # Calculate threshold based on target exit rate
-                                for _l in self.sedac_probe_layers:
-                                    _hist = sorted(self.sedac_risk_history[_l])
-                                    _target_rate = self.sedac_target_exit_rates[_l]
-                                    _q_idx = int(len(_hist) * _target_rate)
-                                    _q_idx = min(max(0, _q_idx), len(_hist) - 1)
-                                    _new_thr = _hist[_q_idx]
-                                    self.sedac_thresholds[_l] = _new_thr
-                                    self.sedac_threshold_tensors[_l].fill_(_new_thr)
-                                self.sedac_calibrated = True
-                                self._sedac_logger.warning("SEDAC calibration done: thresholds=%s", self.sedac_thresholds)
-                            _can_exit = False  # Do not exit during calibration
+                            # 2. Online Calibration (EMA Smoothing)
+                            else:
+                                # Calculate target threshold for current batch
+                                _batch_risks = _risk.view(-1)
+                                _k = int(_batch_risks.numel() * self.sedac_target_exit_rates[_abs_layer])
+                                _k = min(max(1, _k), _batch_risks.numel())
+                                # kthvalue is 1-based, but we want the value that allows k items to exit (values < thr)
+                                # If we want exit rate R, we want the R-th quantile.
+                                _batch_thr = _batch_risks.kthvalue(_k).values.item()
+                                
+                                # Update global threshold with EMA
+                                _old_thr = self.sedac_thresholds[_abs_layer]
+                                _new_thr = self.sedac_alpha * _batch_thr + (1 - self.sedac_alpha) * _old_thr
+                                
+                                self.sedac_thresholds[_abs_layer] = _new_thr
+                                self.sedac_threshold_tensors[_abs_layer].fill_(_new_thr)
+                                
+                                # Decide exit using smoothed threshold
+                                _can_exit = _max_risk < _new_thr
                         else:
-                            # Normal exit decision
+                            # Fixed threshold mode
                             _threshold = self.sedac_threshold_tensors[_abs_layer]
                             _can_exit = _max_risk < _threshold
                         
