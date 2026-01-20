@@ -6,6 +6,8 @@
 
 SEDAC is a next-generation framework that dynamically allocates computation during LLM inference. By using entropy-based gating, it routes predictable tokens through shallow subnetworks and sends ambiguous or high-impact tokens to deeper, specialized paths.
 
+Test equipment configuration: RTX 4060 8G, RAM: 48GB
+
 ## 🚀 What's New in V6.0
 
 Compared to the fixed-layer exit strategy of V5.x, SEDAC V6.0 introduces a **Cascade Early Exit** architecture that significantly improves efficiency and adaptability.
@@ -302,6 +304,8 @@ python sedac_calibrate.py \
 | Conservative | `0.7,0.8,0.9` | ~10% | High | Production |
 | Balanced | `0.8,1.0,1.2` | ~15% | Medium | General |
 | Aggressive | `1.0,1.3,1.7` | ~25% | Lower | Speed priority |
+
+（Bubbling up...）
 
 ### Model-Specific Settings
 
