@@ -1,0 +1,24 @@
+[package]
+name = "sedac-core"
+version = "0.1.0"
+edition = "2021"
+authors = ["CARBON-XXX <jasonuzi12@gmail.com>"]
+description = "High-performance Rust core for SEDAC V6.1 - Semantic Entropy Dynamic Acceleration"
+license = "MIT"
+repository = "https://github.com/CARBON-XXX/SEDACV6.0-Semantic-Entropy-Dynamic-Acceleration-Core"
+
+[lib]
+name = "sedac_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.21", features = ["extension-module"] }
+ndarray = "0.15"
+numpy = "0.21"
+rayon = "1.10"
+parking_lot = "0.12"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3

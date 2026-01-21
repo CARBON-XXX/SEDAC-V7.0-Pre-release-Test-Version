@@ -1,6 +1,6 @@
-# SEDAC V6.0 - Semantic Entropy Dynamic Acceleration Core
+# SEDAC V6.1 - Semantic Entropy Dynamic Acceleration Core
 
-**Multi-layer Cascade Early Exit for LLM Inference Acceleration**
+**Multi-layer Cascade Early Exit with Confidence Accumulation**
 
 > Contact: jasonuzi12@gmail.com
 
@@ -8,7 +8,34 @@ SEDAC is a next-generation framework that dynamically allocates computation duri
 
 Test equipment configuration: RTX 4060 8G, RAM: 48GB
 
-## 🚀 What's New in V6.0
+## What's New in V6.1
+
+V6.1 introduces **Confidence Accumulation** and **Soft Exit** mechanisms, focusing on innovation and quality over raw speed.
+
+### V6.0 vs V6.1 Comparison
+
+| Feature | V6.0 | **V6.1** |
+|:--------|:-----|:---------|
+| **Decision Model** | Single-layer binary | **Cross-layer accumulated** |
+| **Exit Type** | Hard (0% or 100% MLP) | **Soft (gradual reduction)** |
+| **Implementation** | Pure Python | **Rust + Python** |
+| **Noise Resilience** | Low | **High** |
+| **Quality Cliff** | Sharp | **Smooth** |
+
+### Key Innovations
+
+1. **Confidence Accumulation**: Instead of binary decisions at each layer, V6.1 accumulates confidence scores using Bayesian-inspired updates:
+   ```python
+   C_i = C_{i-1} × γ + conf_i × w_i
+   ```
+
+2. **Soft Exit**: Gradual MLP computation reduction based on accumulated confidence, avoiding sharp quality cliffs.
+
+3. **Rust Core** (`sedac-core`): High-performance implementation with parallel batch evaluation and lock-free threshold updates.
+
+---
+
+## What's New in V6.0
 
 Compared to the fixed-layer exit strategy of V5.x, SEDAC V6.0 introduces a **Cascade Early Exit** architecture that significantly improves efficiency and adaptability.
 
