@@ -1,0 +1,46 @@
+=== 探针训练 ===
+命令: C:\Python313\python.exe sedac_train_probes.py --data-dir sedac_data --layers 6,7,12 --epochs 10 --batch-size 512
+时间: 2026-01-21 21:03:40.652977
+============================================================
+
+Device: cuda
+Target layers: [6, 7, 12]
+
+==================================================
+Training Probe for Layer 6
+==================================================
+Samples: 10000, Hidden dim: 2048
+  Epoch  1/10 | Train: 0.361676 | Val: 0.068136
+  Epoch  5/10 | Train: 0.004068 | Val: 0.007186
+  Epoch 10/10 | Train: 0.002883 | Val: 0.006484
+  [OK] Best Val Loss: 0.006484 -> sedac_data\sedac_probe_layer6.pth
+
+==================================================
+Training Probe for Layer 7
+==================================================
+Samples: 48658, Hidden dim: 2048
+  Epoch  1/10 | Train: 0.118771 | Val: 0.093978
+  Epoch  5/10 | Train: 0.050822 | Val: 0.068988
+  Epoch 10/10 | Train: 0.038664 | Val: 0.069602
+  [OK] Best Val Loss: 0.068756 -> sedac_data\sedac_probe_layer7.pth
+
+==================================================
+Training Probe for Layer 12
+==================================================
+Samples: 10000, Hidden dim: 2048
+  Epoch  1/10 | Train: 0.139415 | Val: 0.014051
+  Epoch  5/10 | Train: 0.002784 | Val: 0.005149
+  Epoch 10/10 | Train: 0.002539 | Val: 0.005305
+  [OK] Best Val Loss: 0.005149 -> sedac_data\sedac_probe_layer12.pth
+
+==================================================
+Training Summary
+==================================================
+  Layer  6: Val Loss = 0.006484
+  Layer  7: Val Loss = 0.068756
+  Layer 12: Val Loss = 0.005149
+
+[DONE] All probes trained! Files saved to: sedac_data
+
+
+=== 退出码: 0 ===

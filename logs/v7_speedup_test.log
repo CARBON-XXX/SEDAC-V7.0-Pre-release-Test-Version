@@ -1,0 +1,52 @@
+[21:22:39] ============================================================
+[21:22:39] SEDAC V7.0 Full-Layer Speedup Test
+[21:22:39] ============================================================
+[21:22:39] 
+--- Loading Full-Layer Data ---
+[21:22:40] Layers: 36 (0-35)
+[21:22:40] Samples: 1340
+[21:22:40] Hidden dim: 2048
+[21:22:40] 
+--- Layer Stability Analysis ---
+[21:22:40] Layers with stability > 0.9: 35/35
+[21:22:40] Average stability: 0.9680
+[21:22:40] 
+--- Testing Configurations ---
+[21:22:41] 
+  tau=0.99, K=3:
+[21:22:41]     Avg Exit Layer: 32.5
+[21:22:41]     Speedup: 1.11x
+[21:22:41]     Exit Rate: 22.5%
+[21:22:41]     High Risk Rate: 9.00%
+[21:22:42] 
+  tau=0.98, K=3:
+[21:22:42]     Avg Exit Layer: 25.1
+[21:22:42]     Speedup: 1.44x
+[21:22:42]     Exit Rate: 67.3%
+[21:22:42]     High Risk Rate: 22.40%
+[21:22:43] 
+  tau=0.98, K=2:
+[21:22:43]     Avg Exit Layer: 20.1
+[21:22:43]     Speedup: 1.79x
+[21:22:43]     Exit Rate: 79.1%
+[21:22:43]     High Risk Rate: 22.40%
+[21:22:43] 
+  tau=0.97, K=2:
+[21:22:43]     Avg Exit Layer: 9.0
+[21:22:43]     Speedup: 3.98x
+[21:22:43]     Exit Rate: 98.5%
+[21:22:43]     High Risk Rate: 23.80%
+[21:22:43] 
+  tau=0.95, K=2:
+[21:22:43]     Avg Exit Layer: 4.1
+[21:22:43]     Speedup: 8.83x
+[21:22:43]     Exit Rate: 100.0%
+[21:22:43]     High Risk Rate: 23.80%
+[21:22:43] 
+  tau=0.9, K=2:
+[21:22:43]     Avg Exit Layer: 4.0
+[21:22:43]     Speedup: 8.93x
+[21:22:43]     Exit Rate: 100.0%
+[21:22:43]     High Risk Rate: 23.80%
+[21:22:43] 
+--- Test Complete ---

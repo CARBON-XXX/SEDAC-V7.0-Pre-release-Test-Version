@@ -21,8 +21,8 @@ sedac_data/
 
 # Logs and reports
 *.log
-!baseline_server.log
-!sedac_server.log
+!logs/*.log
+!logs/*.md
 sedac_reports/
 !sedac_reports/
 !sedac_reports/**

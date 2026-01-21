@@ -1,0 +1,42 @@
+[21:08:54] ============================================================
+[21:08:54] SEDAC V6 PPL Loss Test
+[21:08:54] ============================================================
+[21:08:54] Device: cuda
+[21:08:54] 
+--- Loading Data ---
+[21:08:55] Available layers: [6, 7, 12, 14, 18, 21]
+[21:08:55] 
+--- Loading Probes ---
+[21:08:55] Loaded probes: [6, 7, 12, 14, 18, 21]
+[21:08:55] 
+--- Target Speedup: 1.5x ---
+[21:09:31]   Calibrated: actual_speedup=1.48x, avg_exit_layer=24.3
+[21:09:43]   Speedup: 2.18x
+[21:09:43]   Exit Rate: 37.9%
+[21:09:43]   Entropy Increase: -10.95%
+[21:09:43]   High Risk Rate: 5.06%
+[21:09:43]   PPL Loss (exited): -38.98%
+[21:09:43] 
+--- Target Speedup: 2.0x ---
+[21:10:19]   Calibrated: actual_speedup=1.74x, avg_exit_layer=20.7
+[21:10:30]   Speedup: 2.43x
+[21:10:30]   Exit Rate: 51.7%
+[21:10:30]   Entropy Increase: -12.13%
+[21:10:30]   High Risk Rate: 8.58%
+[21:10:30]   PPL Loss (exited): -29.05%
+[21:10:30] 
+--- Target Speedup: 2.5x ---
+[21:11:05]   Calibrated: actual_speedup=1.74x, avg_exit_layer=20.7
+[21:11:15]   Speedup: 2.43x
+[21:11:15]   Exit Rate: 51.7%
+[21:11:15]   Entropy Increase: -12.13%
+[21:11:15]   High Risk Rate: 8.58%
+[21:11:15]   PPL Loss (exited): -29.05%
+[21:11:15] 
+--- Target Speedup: 3.0x ---
+[21:11:49]   Calibrated: actual_speedup=4.18x, avg_exit_layer=8.6
+[21:11:54]   Speedup: 4.26x
+[21:11:54]   Exit Rate: 96.1%
+[21:11:54]   Entropy Increase: 13.00%
+[21:11:54]   High Risk Rate: 24.45%
+[21:11:54]   PPL Loss (exited): 12.18%

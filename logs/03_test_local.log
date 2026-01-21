@@ -1,0 +1,72 @@
+=== 本地测试 ===
+命令: C:\Python313\python.exe sedac_test_local.py
+时间: 2026-01-21 21:03:54.036784
+============================================================
+
+Device: cuda
+============================================================
+SEDAC V7.0 Per-Layer Entropy Monitor Test
+============================================================
+
+--- Loading Data ---
+Available layers: [6, 7, 12, 14, 18, 21]
+Samples per layer: 1000
+
+--- Layer Stability Analysis ---
+Layer-wise stability (cosine similarity with previous layer):
+  Layer  6: 0.0000 
+  Layer  7: 0.4998 ########################
+  Layer 12: 0.4996 ########################
+  Layer 14: 0.5001 #########################
+  Layer 18: 0.4994 ########################
+  Layer 21: 0.4993 ########################
+
+--- V7.0 Configuration Comparison ---
+
+Testing: Conservative
+  Avg Exit Layer: 21.0
+  Speedup: 1.71x
+  Compute Savings: 41.7%
+  High Risk Rate: 75.0%
+  Avg Exit Entropy: 5.42
+
+Testing: Balanced
+  Avg Exit Layer: 21.0
+  Speedup: 1.71x
+  Compute Savings: 41.7%
+  High Risk Rate: 75.0%
+  Avg Exit Entropy: 5.42
+
+Testing: Aggressive
+  Avg Exit Layer: 21.0
+  Speedup: 1.71x
+  Compute Savings: 41.7%
+  High Risk Rate: 75.0%
+  Avg Exit Entropy: 5.42
+
+--- Exit Distribution (Balanced Config) ---
+  Layer 21: 1000 (100.0%) ##################################################
+
+--- V6.0 vs V7.0 Comparison ---
+
+�������������������������������������������Щ����������������������������������Щ�����������������������������������
+�� Metric             �� V6.0 (3-layer)  �� V7.0 (per-layer)��
+�������������������������������������������੤���������������������������������੤����������������������������������
+�� Parameters         �� 3 thresholds    �� 1 threshold (��) ��
+�� Checkpoints        �� Fixed (7,14,21) �� Dynamic (all)   ��
+�� Training Required  �� Yes (3 probes)  �� No              ��
+�� Architecture Dep.  �� Qwen2 only      �� Universal       ��
+�� Speedup            �� ~1.22x          �� 1.71x           ��
+�� High Risk Rate     �� ~13.7%          �� 75.0%          ��
+�������������������������������������������ة����������������������������������ة�����������������������������������
+
+--- Adaptive Tau Calibration ---
+Searching for optimal �� with target exit_rate >= 30%, high_risk < 15%...
+
+  [WARN] Could not find tau satisfying both constraints
+    Consider adjusting min_layer_ratio or consecutive_k
+
+[DONE] V7.0 Test Complete!
+
+
+=== 退出码: 0 ===

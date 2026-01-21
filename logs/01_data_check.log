@@ -1,0 +1,9 @@
+=== 数据检查 ===
+数据目录: G:\SEDACV5.0 FAST\sedac_data
+可用层: [6, 7, 12, 14, 18, 21]
+  Layer 6: hidden=torch.Size([10000, 2048]), entropy=torch.Size([10000])
+  Layer 7: hidden=torch.Size([48658, 2048]), entropy=torch.Size([48658])
+  Layer 12: hidden=torch.Size([10000, 2048]), entropy=torch.Size([10000])
+  Layer 14: hidden=torch.Size([48658, 2048]), entropy=torch.Size([48658])
+  Layer 18: hidden=torch.Size([10000, 2048]), entropy=torch.Size([10000])
+  Layer 21: hidden=torch.Size([48658, 2048]), entropy=torch.Size([48658])
